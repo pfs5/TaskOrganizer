@@ -5,8 +5,8 @@
 namespace Themes
 {
 	static inline const ColorScheme Dark { ColorScheme{}
-		.SetBackground(sf::Color{30, 30, 30})
-		.SetForeground(sf::Color{37, 37, 38})
-		.SetText(sf::Color{255, 255, 255})
+		.SetBackground(sf::Color{0x444444ff})
+		.SetForeground(sf::Color{0xAAAAAAff})
+		.SetText(sf::Color{0x211E29ff})
 	};
 }

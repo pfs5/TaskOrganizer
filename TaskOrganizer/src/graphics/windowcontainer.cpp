@@ -3,13 +3,14 @@
 #include "graphics/windowcontainer.h"
 #include "graphics/window.h"
 
-// todo - testin
-#include "util/random.h"
 #include "SFML/Graphics/RectangleShape.hpp"
+#include "config/themes.h"
+#include "SFML/Graphics/Text.hpp"
+#include "subwindow.h"
+#include "resource/resourcemanager.h"
 
 WindowContainer::WindowContainer(Window& window) :
-	_parentWindow{ &window },
-	_backgroundColor{ Random::RandomInt<sf::Uint8>(0, 255u), Random::RandomInt<sf::Uint8>(0, 255u) , Random::RandomInt<sf::Uint8>(0, 255u) }	// todo - testing
+	_parentWindow{ &window }
 {
 
 }
@@ -25,10 +26,29 @@ sf::Vector2<uint32_t> WindowContainer::GetGlobalBoundsMin() const
 	const sf::Vector2<uint32_t> parentMin = _parent->GetGlobalBoundsMin();
 	const sf::Vector2<uint32_t> parentMax = _parent->GetGlobalBoundsMax();
 
-	return sf::Vector2<uint32_t>{
-		(uint32_t)(parentMin.x + (parentMax.x - parentMin.x) * _normalizedRelativeBoundsMin.x),
-		(uint32_t)(parentMin.y + (parentMax.y - parentMin.y) * _normalizedRelativeBoundsMin.y)
-	};
+	if (_parent->_childLeft == this)
+	{
+		return parentMin;
+	}
+
+	// Container is right/bottom child.
+	const WindowSize& sizeLeft = _parent->_childLeft->_size;
+
+	if (_parent->_splitType == EWindowSplitType::Horizontal)
+	{
+		const uint32_t x = parentMin.x + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.x - parentMin.x));
+		const uint32_t y = parentMin.y;
+		return sf::Vector2<uint32_t>{x, y};
+	}
+	else if (_parent->_splitType == EWindowSplitType::Vertical)
+	{
+		const uint32_t x = parentMin.x;
+		const uint32_t y = parentMin.y + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.y - parentMin.y));
+		return sf::Vector2<uint32_t>{x, y};
+	}
+
+	assert(false);
+	return sf::Vector2<uint32_t>{};
 }
 
 sf::Vector2<uint32_t> WindowContainer::GetGlobalBoundsMax() const
@@ -44,25 +64,71 @@ sf::Vector2<uint32_t> WindowContainer::GetGlobalBoundsMax() const
 	const sf::Vector2<uint32_t> parentMin = _parent->GetGlobalBoundsMin();
 	const sf::Vector2<uint32_t> parentMax = _parent->GetGlobalBoundsMax();
 
-	return sf::Vector2<uint32_t>{
-		(uint32_t)(parentMin.x + (parentMax.x - parentMin.x) * _normalizedRelativeBoundsMax.x),
-		(uint32_t)(parentMin.y + (parentMax.y - parentMin.y) * _normalizedRelativeBoundsMax.y)
-	};
+	if (_parent->_childRight == this)
+	{
+		return parentMax;
+	}
+
+	// Container is left/top child.
+	const WindowSize& sizeLeft = _parent->_childLeft->_size;
+
+	if (_parent->_splitType == EWindowSplitType::Horizontal)
+	{
+		const uint32_t x = parentMin.x + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.x - parentMin.x));
+		const uint32_t y = 0;
+		return sf::Vector2<uint32_t>{x, y};
+	}
+	else if (_parent->_splitType == EWindowSplitType::Vertical)
+	{
+		const uint32_t x = 0;
+		const uint32_t y = parentMin.y + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.y - parentMin.y));
+		return sf::Vector2<uint32_t>{x, y};
+	}
+
+	assert(false);
+	return sf::Vector2<uint32_t>{};
+
 }
 
 void WindowContainer::Draw()
 {
+	if (!IsLeaf())
+	{
+		return;
+	}
+
 	const sf::Vector2<uint32_t> globalMin = GetGlobalBoundsMin();
 	const sf::Vector2<uint32_t> globalMax = GetGlobalBoundsMax();
 
+	const ColorScheme& theme = Themes::Dark;
+	const sf::Color& backgroundColor = theme.Background;
+	const sf::Color& foregroundColor = theme.Foreground;
+	const sf::Color& textColor = theme.Text;
+
 	// Draw background
-	sf::Color color = _parentWindow->GetActiveContainer() == this ?
-		sf::Color{sf::Uint8(_backgroundColor.r - 20), sf::Uint8(_backgroundColor.g - 20) , sf::Uint8(_backgroundColor.b - 20) } :
-		_backgroundColor;
+	sf::RectangleShape rectBackground{ sf::Vector2f{(float)(globalMax.x - globalMin.x), (float)(globalMax.y - globalMin.y)} };
+	rectBackground.setPosition((float)globalMin.x, (float)globalMin.y);
+	rectBackground.setFillColor(backgroundColor);
+	_parentWindow->Draw(rectBackground);
 
-	sf::RectangleShape rect{ sf::Vector2f{(float)(globalMax.x - globalMin.x), (float)(globalMax.y - globalMin.y)} };
-	rect.setPosition((float)globalMin.x, (float)globalMin.y);
-	rect.setFillColor(color);
-	_parentWindow->Draw(rect);
+	// Draw border
+	static constexpr float BORDER_THICKNESS = 2.f;
+	sf::RectangleShape rectBorder{ 
+		sf::Vector2f{(float)(globalMax.x - globalMin.x - BORDER_THICKNESS * 0.5f), 
+		(float)(globalMax.y - globalMin.y - BORDER_THICKNESS * 0.5f)} 
+	};
+	rectBorder.setPosition((float)globalMin.x, (float)globalMin.y);
+	rectBorder.setOutlineColor(foregroundColor);
+	rectBorder.setFillColor(sf::Color::Transparent);
+	rectBorder.setOutlineThickness(BORDER_THICKNESS);
+	_parentWindow->Draw(rectBorder);
 
+	// Draw name
+	static constexpr float NAME_TEXT_PADDING = 5.f;
+	if (sf::Font* font = ResourceManagerProxy::Get().GetFont("OpenSansMedium"))
+	{
+		sf::Text text(_subWindow != nullptr ? _subWindow->GetSubWindowName() : "", *font, 12);
+		text.setPosition(globalMin.x + NAME_TEXT_PADDING, globalMin.y + NAME_TEXT_PADDING);
+		_parentWindow->Draw(text);
+	}
 }

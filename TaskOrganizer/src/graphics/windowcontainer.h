@@ -25,19 +25,21 @@ public:
 
 // todo - make private
 protected:
-	SubWindow* _subWindow;
-
-	EWindowSplitType _splitType = EWindowSplitType::Horizontal;
 	WindowContainer* _parent = nullptr;
 	WindowContainer* _childLeft = nullptr;
 	WindowContainer* _childRight = nullptr;
 	Window* _parentWindow;
 
+	// Valid only for internal nodes
+	EWindowSplitType _splitType = EWindowSplitType::Horizontal;
+
+	// Valid only for leaf nodes
+	WindowSize _size;
+	SubWindow* _subWindow;
+
+	// todo - remove
 	sf::Vector2<float> _normalizedRelativeBoundsMin;
 	sf::Vector2<float> _normalizedRelativeBoundsMax;
-
-	// todo - for testing purposes, might leave it in afterwards if needed.
-	sf::Color _backgroundColor;
 
 protected:
 	WindowContainer() = default;	// private ctor, only Window should create new containers.
@@ -50,6 +52,4 @@ private:
 		_normalizedRelativeBoundsMin = min;
 		_normalizedRelativeBoundsMax = max;
 	}
-
-	void SetSubWindow(SubWindow& subWindow) { _subWindow = &subWindow; }
 };

@@ -54,23 +54,6 @@ void Window::Update()
 				OnMouseButtonReleased((uint32_t)event.mouseButton.x, (uint32_t)event.mouseButton.y, event.mouseButton.button);
 				break;
 			}
-
-			// todo - testing
-			case sf::Event::KeyPressed:
-			{
-				_isDirty = true;
-
-				if (event.key.code == sf::Keyboard::Key::Q)
-				{
-					AddSubWindow<SubWindow>(EWindowSplitType::Horizontal);
-				}
-				if (event.key.code == sf::Keyboard::Key::E)
-				{
-					AddSubWindow<SubWindow>(EWindowSplitType::Vertical);
-				}
-
-				break;
-			}
 		}
 	}
 
@@ -126,7 +109,7 @@ WindowContainer* Window::CreateRootContainer()
 	return container;
 }
 
-WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType split)
+WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType split, const WindowSize& size)
 {
 	assert(parent.IsLeaf());	// with the current layout, we can only add new containers to leafs. non-leaf containers are invisible and are used internally for the tree structure
 
@@ -165,6 +148,7 @@ WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType 
 	internalNode->_childLeft = &parent;
 	internalNode->_childRight = container;
 
+	// todo - remove these bounds
 	// 3. Update the bounds
 	internalNode->_normalizedRelativeBoundsMin = parent._normalizedRelativeBoundsMin;
 	internalNode->_normalizedRelativeBoundsMax = parent._normalizedRelativeBoundsMax;
@@ -172,17 +156,17 @@ WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType 
 	if (split == EWindowSplitType::Horizontal)
 	{
 		internalNode->_childLeft->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 0.0f, 0.0f };
-		internalNode->_childLeft->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 0.5f, 1.0f };
+		internalNode->_childLeft->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 1.f - 0.5f, 1.0f };
 
-		internalNode->_childRight->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 0.5f, 0.0f };
+		internalNode->_childRight->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 1.f - 0.5f, 0.0f };
 		internalNode->_childRight->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 1.0f, 1.0f };
 	}
 	else if (split == EWindowSplitType::Vertical)
 	{
 		internalNode->_childLeft->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 0.0f, 0.0f };
-		internalNode->_childLeft->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 1.0f, 0.5f };
+		internalNode->_childLeft->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 1.0f, 1.f - 0.5f };
 
-		internalNode->_childRight->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 0.0f, 0.5f };
+		internalNode->_childRight->_normalizedRelativeBoundsMin = sf::Vector2<float>{ 0.0f, 1.f - 0.5f };
 		internalNode->_childRight->_normalizedRelativeBoundsMax = sf::Vector2<float>{ 1.0f, 1.0f };
 	}
 	else
@@ -194,21 +178,27 @@ WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType 
 }
 
 
-void Window::AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split)
+void Window::AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split, const WindowSize& size)
 {
 	if (_rootContainer == nullptr)
 	{
-		CreateRootContainer()->SetSubWindow(subWindow);
+		WindowContainer* container = CreateRootContainer();
+		assert(container != nullptr);
+
+		container->_subWindow = &subWindow;
+		container->_size = size;
+
 		return;
 	}
 
 	WindowContainer* targetContainer = _activeContainer != nullptr ? _activeContainer : FindFirstLeafContainer();
 	assert(targetContainer != nullptr);
 
-	WindowContainer* newContainer = AddContainer(*targetContainer, split);
+	WindowContainer* newContainer = AddContainer(*targetContainer, split, size);
 	assert(newContainer != nullptr);
 
-	newContainer->SetSubWindow(subWindow);
+	newContainer->_subWindow = &subWindow;
+	newContainer->_size = size;
 }
 
 void Window::ForEachContainer(const ForEachContainerPredicate& predicate)
@@ -292,7 +282,7 @@ WindowContainer* Window::FindFirstLeafContainer()
 
 	while (!current->IsLeaf())
 	{
-		current = current->_childLeft;
+		current = current->_childRight;
 	}
 
 	return current;

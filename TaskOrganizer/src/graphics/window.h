@@ -3,6 +3,7 @@
 #include "graphics/windowcommon.h"
 #include "graphics/renderwindow.h"
 #include "SFML/Window/Mouse.hpp"
+#include "math/math.h"
 
 namespace sf
 {
@@ -38,19 +39,19 @@ public:
 	uint32_t GetHeigth() const { return _window.getSize().y; }
 
 	// New window is added to the active container or the first leaf if none is active.
+	// SplitRatio in [0, 1]
 	template <typename T, typename... Args>
-	T* AddSubWindow(EWindowSplitType split, const Args&... args)
+	T* AddSubWindow(EWindowSplitType split, const WindowSize& size, const Args&... args)
 	{
 		T* subWindow = CreateSubWindow<T>(std::forward<const Args>(args)...);
 		assert(subWindow != nullptr);
 
-		AddSubWindowInternal(*subWindow, split);
+		AddSubWindowInternal(*subWindow, split, size);
 		
 		return subWindow;
 	}
 	
 // Containers
-	
 	const WindowContainer* GetActiveContainer() const { return _activeContainer; }
 
 // Drawing
@@ -75,7 +76,7 @@ private:
 
 	WindowContainer* CreateContainer();
 	WindowContainer* CreateRootContainer();
-	WindowContainer* AddContainer(WindowContainer& parent, EWindowSplitType split);
+	WindowContainer* AddContainer(WindowContainer& parent, EWindowSplitType split, const WindowSize& size);
 
 	template <typename T, typename... Args>
 	T* CreateSubWindow(const Args&... args)
@@ -84,7 +85,7 @@ private:
 		return new T(std::forward<const Args>(args)...);
 	}
 
-	void AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split);
+	void AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split, const WindowSize& size);
 
 	using ForEachContainerPredicate = std::function<void(WindowContainer& container, uint32_t depth, bool& shouldBreak)>;
 	void ForEachContainer(const ForEachContainerPredicate& predicate);
@@ -96,7 +97,7 @@ private:
 	void ForEachContainerInternal(WindowContainer& root, uint32_t depth, bool& shouldBreak, const ForEachContainerConstPredicate& predicate) const;
 
 	WindowContainer* FindContainerAtLocation(uint32_t x, uint32_t y);
-	// Leftmost in tree.
+	// Rightmost in tree.
 	WindowContainer* FindFirstLeafContainer();
 
 // Events

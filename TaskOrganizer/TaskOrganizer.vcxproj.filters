@@ -7,12 +7,13 @@
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\graphics\windowcontainer.cpp" />
     <ClCompile Include="src\graphics\renderwindow.cpp" />
+    <ClCompile Include="src\resource\resourcemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\graphics\colorscheme.h" />
-    <ClInclude Include="src\graphics\themes.h" />
+    <ClInclude Include="src\config\themes.h" />
     <ClInclude Include="src\application\application.h" />
     <ClInclude Include="src\graphics\windowcontainer.h" />
     <ClInclude Include="src\util\asserts.h" />
@@ -23,6 +24,14 @@
     <ClInclude Include="src\util\time.h" />
     <ClInclude Include="src\util\math.h" />
     <ClInclude Include="src\graphics\subwindow.h" />
+    <ClInclude Include="src\math\math.h" />
+    <ClInclude Include="src\subwindows\subwindow_tasktracking.h" />
+    <ClInclude Include="src\subwindows\subwindow_properties.h" />
+    <ClInclude Include="src\subwindows\subwindow_status.h" />
+    <ClInclude Include="src\subwindows\subwindow_menubar.h" />
+    <ClInclude Include="src\config\staticconfig.h" />
+    <ClInclude Include="src\util\proxy.h" />
+    <ClInclude Include="src\resource\resourcemanager.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />

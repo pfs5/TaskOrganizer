@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="WindowContainer">
+    <DisplayString>Type={_subWindow}</DisplayString>
+  </Type>
 
+  <Type Name="SubWindow_MenuBar">
+    <DisplayString>SubWindow_MenuBar</DisplayString>
+  </Type>
+
+  <Type Name="SubWindow_TaskTracking">
+    <DisplayString>SubWindow_TaskTracking</DisplayString>
+  </Type>
+
+  <Type Name="SubWindow_Properties">
+    <DisplayString>SubWindow_Properties</DisplayString>
+  </Type>
+
+  <Type Name="SubWindow_Status">
+    <DisplayString>SubWindow_Status</DisplayString>
+  </Type>
 
 </AutoVisualizer>
