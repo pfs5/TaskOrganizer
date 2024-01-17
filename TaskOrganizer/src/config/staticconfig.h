@@ -13,6 +13,9 @@ namespace StaticConfig
 	// UI
 	static constexpr uint32_t BUTTON_HEIGHT = 20;
 
+	// Data
+	static constexpr size_t WIDGET_MAX_CHILDREN = 16;
+
 	// Paths
 	static constexpr const char* PATH_CONFIGFILE = "appconfig.json";
 }

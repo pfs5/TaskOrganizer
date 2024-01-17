@@ -2,7 +2,7 @@
 
 #include "graphics/windowcommon.h"
 
-class SubWindow;
+class SubWindowBase;
 
 // Base class for any kind of content inside a window. One window can contain multiple containers in a tree-like structure.
 // The container uses local and global coordinates for drawing. Local is relative to the container position inside the window while global refers to the parent window.
@@ -35,7 +35,7 @@ protected:
 
 	// Valid only for leaf nodes
 	WindowSize _size;
-	SubWindow* _subWindow;
+	SubWindowBase* _subWindow;
 
 	// todo - remove
 	sf::Vector2<float> _normalizedRelativeBoundsMin;
@@ -52,4 +52,6 @@ private:
 		_normalizedRelativeBoundsMin = min;
 		_normalizedRelativeBoundsMax = max;
 	}
+
+	void DrawDebug();
 };

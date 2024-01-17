@@ -2,12 +2,9 @@
 
 #include "graphics/subwindow.h"
 
-class SubWindow_Properties : public SubWindow
+class SubWindow_Properties : public SubWindow<SubWindow_Properties>
 {
-	using Super = SubWindow;
+	using Super = SubWindow<SubWindow_Properties>;
 	using Super::Super;
-
-public:
-	const char* GetSubWindowName() const override { return "Properties"; };
 
 };

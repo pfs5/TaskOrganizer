@@ -64,6 +64,7 @@ private:
 public:
 	// Config variables - currently public for simplicity.
 	DEFINE_CONFIG_VARIABLE(bool, ShowWidgetBounds, false);
+	DEFINE_CONFIG_VARIABLE(bool, ShowWindowDebug, false);
 
 private:
 	void LoadConfig();

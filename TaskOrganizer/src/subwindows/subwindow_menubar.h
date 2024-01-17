@@ -2,12 +2,12 @@
 
 #include "graphics/subwindow.h"
 
-class SubWindow_MenuBar : public SubWindow
+class SubWindow_MenuBar : public SubWindow<SubWindow_MenuBar>
 {
-	using Super = SubWindow;
+	using Super = SubWindow<SubWindow_MenuBar>;
 	using Super::Super;
 
 public:
-	const char* GetSubWindowName() const override { return "MenuBar"; };
+	void ConstructSubWindow() {}
 
 };

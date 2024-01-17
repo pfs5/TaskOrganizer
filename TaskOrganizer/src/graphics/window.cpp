@@ -200,7 +200,7 @@ WindowContainer* Window::CreateNewContainer(EWindowSplitType split, const Window
 	return targetContainer;
 }
 
-void Window::InitializeWindowContainer(WindowContainer& container, SubWindow& subWindow)
+void Window::InitializeWindowContainer(WindowContainer& container, SubWindowBase& subWindow)
 {
 	container._subWindow = &subWindow;
 }

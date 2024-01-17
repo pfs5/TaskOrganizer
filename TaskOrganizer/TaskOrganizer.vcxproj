@@ -143,6 +143,7 @@
     <ClCompile Include="src\config\appconfig.cpp" />
     <ClCompile Include="src\graphics\renderwindow.cpp" />
     <ClCompile Include="src\graphics\widget.cpp" />
+    <ClCompile Include="src\graphics\widgetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\graphics\windowcontainer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\application\application.h" />
     <ClInclude Include="src\config\appconfig.h" />
     <ClInclude Include="src\config\staticconfig.h" />
+    <ClInclude Include="src\containers\inplacevector.h" />
     <ClInclude Include="src\external\nlohmann_json.hpp" />
     <ClInclude Include="src\external\nlohmann_json_fwd.hpp" />
     <ClInclude Include="src\graphics\colorscheme.h" />
@@ -164,6 +166,8 @@
     <ClInclude Include="src\graphics\subwindow.h" />
     <ClInclude Include="src\config\themes.h" />
     <ClInclude Include="src\graphics\widget.h" />
+    <ClInclude Include="src\graphics\widgetbase.h" />
+    <ClInclude Include="src\graphics\widgetmanager.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\graphics\windowcommon.h" />
     <ClInclude Include="src\graphics\windowcontainer.h" />
@@ -181,6 +185,7 @@
     <ClInclude Include="src\util\time.h" />
     <ClInclude Include="src\util\tostring.h" />
     <ClInclude Include="src\util\proxy.h" />
+    <ClInclude Include="src\util\typehelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />

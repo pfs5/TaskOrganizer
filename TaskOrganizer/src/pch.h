@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <random>
+#include <regex>
 #include <string>
 #include <vector>
 

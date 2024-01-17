@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "graphics/windowcontainer.h"
 
+#include "config/appconfig.h"
 #include "config/themes.h"
 #include "graphics/subwindow.h"
 #include "graphics/window.h"
@@ -101,8 +102,6 @@ void WindowContainer::Draw()
 
 	const ColorScheme& theme = Themes::Dark;
 	const sf::Color& backgroundColor = theme.Background;
-	const sf::Color& foregroundColor = theme.Foreground;
-	const sf::Color& textColor = theme.Text;
 
 	// Draw background
 	sf::RectangleShape rectBackground{ sf::Vector2f{(float)(globalMax.x - globalMin.x), (float)(globalMax.y - globalMin.y)} };
@@ -110,11 +109,26 @@ void WindowContainer::Draw()
 	rectBackground.setFillColor(backgroundColor);
 	_parentWindow->Draw(rectBackground);
 
+	if (AppConfigProxy::Get().ShowWindowDebug)
+	{
+		DrawDebug();
+	}
+}
+
+void WindowContainer::DrawDebug()
+{
+	const sf::Vector2<uint32_t> globalMin = GetGlobalBoundsMin();
+	const sf::Vector2<uint32_t> globalMax = GetGlobalBoundsMax();
+
+	const ColorScheme& theme = Themes::Dark;
+	const sf::Color& foregroundColor = theme.Foreground;
+	const sf::Color& textColor = theme.Text;
+
 	// Draw border
 	static constexpr float BORDER_THICKNESS = 2.f;
-	sf::RectangleShape rectBorder{ 
-		sf::Vector2f{(float)(globalMax.x - globalMin.x - BORDER_THICKNESS * 0.5f), 
-		(float)(globalMax.y - globalMin.y - BORDER_THICKNESS * 0.5f)} 
+	sf::RectangleShape rectBorder{
+		sf::Vector2f{(float)(globalMax.x - globalMin.x - BORDER_THICKNESS * 0.5f),
+		(float)(globalMax.y - globalMin.y - BORDER_THICKNESS * 0.5f)}
 	};
 	rectBorder.setPosition((float)globalMin.x, (float)globalMin.y);
 	rectBorder.setOutlineColor(foregroundColor);

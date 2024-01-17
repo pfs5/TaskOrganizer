@@ -2,12 +2,9 @@
 
 #include "graphics/subwindow.h"
 
-class SubWindow_TaskTracking : public SubWindow
+class SubWindow_TaskTracking : public SubWindow<SubWindow_TaskTracking>
 {
-	using Super = SubWindow;
+	using Super = SubWindow<SubWindow_TaskTracking>;
 	using Super::Super;
-
-public:
-	const char* GetSubWindowName() const override { return "TaskTracking"; };
 
 };

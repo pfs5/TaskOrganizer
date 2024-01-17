@@ -9,7 +9,7 @@ namespace sf
 {
 	class Drawable;
 }
-class SubWindow;
+class SubWindowBase;
 class WindowContainer;
 
 class Window
@@ -50,6 +50,7 @@ public:
 		assert(subWindow != nullptr);
 
 		InitializeWindowContainer(*targetContainer, *subWindow);
+		subWindow->ConstructSubWindow();
 
 		return subWindow;
 	}
@@ -89,7 +90,7 @@ private:
 	}
 
 	WindowContainer* CreateNewContainer(EWindowSplitType split, const WindowSize& size);
-	void InitializeWindowContainer(WindowContainer& container, SubWindow& subWindow);
+	void InitializeWindowContainer(WindowContainer& container, SubWindowBase& subWindow);
 
 	using ForEachContainerPredicate = std::function<void(WindowContainer& container, uint32_t depth, bool& shouldBreak)>;
 	void ForEachContainer(const ForEachContainerPredicate& predicate);

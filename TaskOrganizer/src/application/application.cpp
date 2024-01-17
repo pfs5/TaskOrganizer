@@ -11,14 +11,17 @@
 #include "subwindows/subwindow_properties.h"
 #include "subwindows/subwindow_status.h"
 #include "subwindows/subwindow_tasktracking.h"
+#include "graphics/widgetmanager.h"
 
 void Application::Run()
 {
 	ResourceManager resourceManager;
-	ResourceManagerProxy::Open(resourceManager);
-
 	AppConfig appConfig;
+	WidgetManager widgetManager;
+
+	ResourceManagerProxy::Open(resourceManager);
 	AppConfigProxy::Open(appConfig);
+	WidgetManagerProxy::Open(widgetManager);
 
 	Window mainWindow{ Window::CreationParams{}
 		.SetWidth(720)
@@ -43,6 +46,7 @@ void Application::Run()
 		mainWindow.Update();
 	}
 
+	WidgetManagerProxy::Close(widgetManager);
 	AppConfigProxy::Close(appConfig);
 	ResourceManagerProxy::Close(resourceManager);
 }

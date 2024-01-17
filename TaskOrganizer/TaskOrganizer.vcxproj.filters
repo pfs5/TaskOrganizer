@@ -11,6 +11,7 @@
     <ClCompile Include="src\graphics\widget.cpp" />
     <ClCompile Include="src\subwindows\subwindow_status.cpp" />
     <ClCompile Include="src\config\appconfig.cpp" />
+    <ClCompile Include="src\graphics\widgetmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
@@ -40,6 +41,10 @@
     <ClInclude Include="src\external\nlohmann_json.hpp" />
     <ClInclude Include="src\external\nlohmann_json_fwd.hpp" />
     <ClInclude Include="src\util\json.h" />
+    <ClInclude Include="src\graphics\widgetbase.h" />
+    <ClInclude Include="src\containers\inplacevector.h" />
+    <ClInclude Include="src\graphics\widgetmanager.h" />
+    <ClInclude Include="src\util\typehelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />
