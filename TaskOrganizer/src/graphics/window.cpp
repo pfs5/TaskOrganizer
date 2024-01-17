@@ -1,8 +1,7 @@
 #include "pch.h"
-
 #include "graphics/window.h"
-#include "graphics/windowcontainer.h"
 
+#include "graphics/windowcontainer.h"
 #include "SFML/Window/VideoMode.hpp"
 #include "SFML/Window/Event.hpp"
 #include "util/time.h"
@@ -178,27 +177,32 @@ WindowContainer* Window::AddContainer(WindowContainer& parent, EWindowSplitType 
 }
 
 
-void Window::AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split, const WindowSize& size)
+WindowContainer* Window::CreateNewContainer(EWindowSplitType split, const WindowSize& size)
 {
+	WindowContainer* targetContainer = nullptr;
+
 	if (_rootContainer == nullptr)
 	{
-		WindowContainer* container = CreateRootContainer();
-		assert(container != nullptr);
-
-		container->_subWindow = &subWindow;
-		container->_size = size;
-
-		return;
+		targetContainer = CreateRootContainer();
 	}
+	else
+	{
+		WindowContainer* containerToSplit = _activeContainer != nullptr ? _activeContainer : FindFirstLeafContainer();
+		assert(containerToSplit != nullptr);
 
-	WindowContainer* targetContainer = _activeContainer != nullptr ? _activeContainer : FindFirstLeafContainer();
+		targetContainer = AddContainer(*containerToSplit, split, size);
+	}
+	
 	assert(targetContainer != nullptr);
 
-	WindowContainer* newContainer = AddContainer(*targetContainer, split, size);
-	assert(newContainer != nullptr);
+	targetContainer->_size = size;
 
-	newContainer->_subWindow = &subWindow;
-	newContainer->_size = size;
+	return targetContainer;
+}
+
+void Window::InitializeWindowContainer(WindowContainer& container, SubWindow& subWindow)
+{
+	container._subWindow = &subWindow;
 }
 
 void Window::ForEachContainer(const ForEachContainerPredicate& predicate)

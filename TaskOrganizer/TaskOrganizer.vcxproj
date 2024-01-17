@@ -140,7 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />
+    <ClCompile Include="src\config\appconfig.cpp" />
     <ClCompile Include="src\graphics\renderwindow.cpp" />
+    <ClCompile Include="src\graphics\widget.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\graphics\windowcontainer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -149,14 +151,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\resource\resourcemanager.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_status.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />
+    <ClInclude Include="src\config\appconfig.h" />
     <ClInclude Include="src\config\staticconfig.h" />
+    <ClInclude Include="src\external\nlohmann_json.hpp" />
+    <ClInclude Include="src\external\nlohmann_json_fwd.hpp" />
     <ClInclude Include="src\graphics\colorscheme.h" />
     <ClInclude Include="src\graphics\renderwindow.h" />
     <ClInclude Include="src\graphics\subwindow.h" />
     <ClInclude Include="src\config\themes.h" />
+    <ClInclude Include="src\graphics\widget.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\graphics\windowcommon.h" />
     <ClInclude Include="src\graphics\windowcontainer.h" />
@@ -168,6 +175,7 @@
     <ClInclude Include="src\subwindows\subwindow_status.h" />
     <ClInclude Include="src\subwindows\subwindow_tasktracking.h" />
     <ClInclude Include="src\util\asserts.h" />
+    <ClInclude Include="src\util\json.h" />
     <ClInclude Include="src\util\math.h" />
     <ClInclude Include="src\util\random.h" />
     <ClInclude Include="src\util\time.h" />

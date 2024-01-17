@@ -20,3 +20,14 @@ inline std::string ToString(const sf::Vector2<Int>& v)
 {
 	return StringFormat("{%d, %d}", v.x, v.y);
 }
+
+inline std::string ToString(bool value)
+{
+	return value ? "true" : "false";
+}
+
+template<typename T>
+std::string ToString(const T& value)
+{
+	return "Please define a ToString specialization";
+}

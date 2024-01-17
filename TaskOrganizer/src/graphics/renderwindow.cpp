@@ -1,5 +1,4 @@
 #include "pch.h"
-
 #include "graphics/renderwindow.h"
 
 void RenderWindow::onResize()

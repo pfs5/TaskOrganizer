@@ -43,11 +43,14 @@ public:
 	template <typename T, typename... Args>
 	T* AddSubWindow(EWindowSplitType split, const WindowSize& size, const Args&... args)
 	{
-		T* subWindow = CreateSubWindow<T>(std::forward<const Args>(args)...);
+		WindowContainer* targetContainer = CreateNewContainer(split, size);
+		assert(targetContainer != nullptr);
+	
+		T* subWindow = CreateSubWindow<T>(*targetContainer, std::forward<const Args>(args)...);
 		assert(subWindow != nullptr);
 
-		AddSubWindowInternal(*subWindow, split, size);
-		
+		InitializeWindowContainer(*targetContainer, *subWindow);
+
 		return subWindow;
 	}
 	
@@ -79,13 +82,14 @@ private:
 	WindowContainer* AddContainer(WindowContainer& parent, EWindowSplitType split, const WindowSize& size);
 
 	template <typename T, typename... Args>
-	T* CreateSubWindow(const Args&... args)
+	T* CreateSubWindow(WindowContainer& parentContainer, const Args&... args)
 	{
 		// todo - pool
-		return new T(std::forward<const Args>(args)...);
+		return new T(parentContainer, std::forward<const Args>(args)...);
 	}
 
-	void AddSubWindowInternal(SubWindow& subWindow, EWindowSplitType split, const WindowSize& size);
+	WindowContainer* CreateNewContainer(EWindowSplitType split, const WindowSize& size);
+	void InitializeWindowContainer(WindowContainer& container, SubWindow& subWindow);
 
 	using ForEachContainerPredicate = std::function<void(WindowContainer& container, uint32_t depth, bool& shouldBreak)>;
 	void ForEachContainer(const ForEachContainerPredicate& predicate);

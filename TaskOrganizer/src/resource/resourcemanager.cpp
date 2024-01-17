@@ -1,6 +1,7 @@
 #include "pch.h"
-#include "SFML/Graphics/Font.hpp"
 #include "resource/resourcemanager.h"
+
+#include "SFML/Graphics/Font.hpp"
 
 ResourceManager::ResourceManager()
 {

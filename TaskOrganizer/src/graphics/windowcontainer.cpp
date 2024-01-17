@@ -1,13 +1,12 @@
 #include "pch.h"
-
 #include "graphics/windowcontainer.h"
-#include "graphics/window.h"
 
-#include "SFML/Graphics/RectangleShape.hpp"
 #include "config/themes.h"
-#include "SFML/Graphics/Text.hpp"
-#include "subwindow.h"
+#include "graphics/subwindow.h"
+#include "graphics/window.h"
 #include "resource/resourcemanager.h"
+#include "SFML/Graphics/RectangleShape.hpp"
+#include "SFML/Graphics/Text.hpp"
 
 WindowContainer::WindowContainer(Window& window) :
 	_parentWindow{ &window }
@@ -75,12 +74,12 @@ sf::Vector2<uint32_t> WindowContainer::GetGlobalBoundsMax() const
 	if (_parent->_splitType == EWindowSplitType::Horizontal)
 	{
 		const uint32_t x = parentMin.x + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.x - parentMin.x));
-		const uint32_t y = 0;
+		const uint32_t y = parentMax.y;
 		return sf::Vector2<uint32_t>{x, y};
 	}
 	else if (_parent->_splitType == EWindowSplitType::Vertical)
 	{
-		const uint32_t x = 0;
+		const uint32_t x = parentMax.x;
 		const uint32_t y = parentMin.y + (uint32_t)sizeLeft.CalculateRelativeSize((float)(parentMax.y - parentMin.y));
 		return sf::Vector2<uint32_t>{x, y};
 	}
@@ -125,10 +124,15 @@ void WindowContainer::Draw()
 
 	// Draw name
 	static constexpr float NAME_TEXT_PADDING = 5.f;
+	static constexpr uint32_t NAME_TEXT_CHAR_SIZE = 12;
 	if (sf::Font* font = ResourceManagerProxy::Get().GetFont("OpenSansMedium"))
 	{
-		sf::Text text(_subWindow != nullptr ? _subWindow->GetSubWindowName() : "", *font, 12);
-		text.setPosition(globalMin.x + NAME_TEXT_PADDING, globalMin.y + NAME_TEXT_PADDING);
+		sf::Text text(_subWindow != nullptr ? _subWindow->GetSubWindowName() : "", *font, NAME_TEXT_CHAR_SIZE);
+		const sf::FloatRect textBounds = text.getLocalBounds();
+		text.setPosition(
+			(float)globalMax.x - textBounds.width - NAME_TEXT_PADDING,
+			(float)globalMax.y - NAME_TEXT_CHAR_SIZE - NAME_TEXT_PADDING
+		);
 		_parentWindow->Draw(text);
 	}
 }

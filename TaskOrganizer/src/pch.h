@@ -4,15 +4,19 @@
 #include <cassert>
 #include <chrono>
 #include <cstdint>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <random>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include "SFML/Graphics/Color.hpp"
 #include "SFML/System/Vector2.hpp"
 
 #include "util/tostring.h"
+
+#define USE_DEBUG \
+	!defined(_RELEASE)

@@ -8,6 +8,9 @@
     <ClCompile Include="src\graphics\windowcontainer.cpp" />
     <ClCompile Include="src\graphics\renderwindow.cpp" />
     <ClCompile Include="src\resource\resourcemanager.cpp" />
+    <ClCompile Include="src\graphics\widget.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_status.cpp" />
+    <ClCompile Include="src\config\appconfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
@@ -32,6 +35,11 @@
     <ClInclude Include="src\config\staticconfig.h" />
     <ClInclude Include="src\util\proxy.h" />
     <ClInclude Include="src\resource\resourcemanager.h" />
+    <ClInclude Include="src\graphics\widget.h" />
+    <ClInclude Include="src\config\appconfig.h" />
+    <ClInclude Include="src\external\nlohmann_json.hpp" />
+    <ClInclude Include="src\external\nlohmann_json_fwd.hpp" />
+    <ClInclude Include="src\util\json.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />
