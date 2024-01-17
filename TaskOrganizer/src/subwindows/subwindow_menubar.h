@@ -8,6 +8,6 @@ class SubWindow_MenuBar : public SubWindow<SubWindow_MenuBar>
 	using Super::Super;
 
 public:
-	void ConstructSubWindow() {}
+	void ConstructSubWindow();
 
 };

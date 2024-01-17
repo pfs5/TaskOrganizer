@@ -17,6 +17,7 @@
 #include "SFML/Graphics/Color.hpp"
 #include "SFML/System/Vector2.hpp"
 
+#include "util/asserts.h"
 #include "util/tostring.h"
 
 #define USE_DEBUG \

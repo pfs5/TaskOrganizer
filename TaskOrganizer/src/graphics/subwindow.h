@@ -16,10 +16,13 @@ public:
 
 	virtual ~SubWindowBase() = default;
 	
+	virtual void DrawSubWindow();
 	virtual const std::string& GetSubWindowName() const = 0;
-
 	virtual void ConstructSubWindow() {}
-	virtual void Draw() {}
+
+// WidgetBase
+	WidgetSize GetWidgetSize() const final;
+	sf::Vector2f GetWidgetLocalPosition() const final;
 
 protected:
 	WindowContainer* _parentContainer = nullptr;

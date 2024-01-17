@@ -12,6 +12,9 @@
     <ClCompile Include="src\subwindows\subwindow_status.cpp" />
     <ClCompile Include="src\config\appconfig.cpp" />
     <ClCompile Include="src\graphics\widgetmanager.cpp" />
+    <ClCompile Include="src\graphics\subwindow.cpp" />
+    <ClCompile Include="src\graphics\widgetbase.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_menubar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
@@ -45,6 +48,7 @@
     <ClInclude Include="src\containers\inplacevector.h" />
     <ClInclude Include="src\graphics\widgetmanager.h" />
     <ClInclude Include="src\util\typehelper.h" />
+    <ClInclude Include="src\graphics\widgetsize.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />

@@ -4,6 +4,11 @@
 
 class SubWindowBase;
 
+namespace sf
+{
+	class RenderTarget;
+}
+
 // Base class for any kind of content inside a window. One window can contain multiple containers in a tree-like structure.
 // The container uses local and global coordinates for drawing. Local is relative to the container position inside the window while global refers to the parent window.
 class WindowContainer
@@ -22,6 +27,8 @@ public:
 	sf::Vector2<uint32_t> GetGlobalBoundsMax() const;
 
 	void Draw();
+
+	sf::RenderTarget& GetRenderer();
 
 // todo - make private
 protected:

@@ -38,6 +38,8 @@ public:
 	uint32_t GetWidth() const { return _window.getSize().x; }
 	uint32_t GetHeigth() const { return _window.getSize().y; }
 
+	sf::RenderTarget& GetRenderer() { return _window; }
+
 	// New window is added to the active container or the first leaf if none is active.
 	// SplitRatio in [0, 1]
 	template <typename T, typename... Args>

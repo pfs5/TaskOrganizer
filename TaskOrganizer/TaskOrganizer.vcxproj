@@ -142,7 +142,9 @@
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\config\appconfig.cpp" />
     <ClCompile Include="src\graphics\renderwindow.cpp" />
+    <ClCompile Include="src\graphics\subwindow.cpp" />
     <ClCompile Include="src\graphics\widget.cpp" />
+    <ClCompile Include="src\graphics\widgetbase.cpp" />
     <ClCompile Include="src\graphics\widgetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\graphics\windowcontainer.cpp" />
@@ -152,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\resource\resourcemanager.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_menubar.cpp" />
     <ClCompile Include="src\subwindows\subwindow_status.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +171,7 @@
     <ClInclude Include="src\graphics\widget.h" />
     <ClInclude Include="src\graphics\widgetbase.h" />
     <ClInclude Include="src\graphics\widgetmanager.h" />
+    <ClInclude Include="src\graphics\widgetsize.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\graphics\windowcommon.h" />
     <ClInclude Include="src\graphics\windowcontainer.h" />

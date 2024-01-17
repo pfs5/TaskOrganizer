@@ -113,6 +113,17 @@ void WindowContainer::Draw()
 	{
 		DrawDebug();
 	}
+
+	if (_subWindow != nullptr)
+	{
+		_subWindow->DrawSubWindow();
+	}
+}
+
+sf::RenderTarget& WindowContainer::GetRenderer()
+{
+	ensure(_parentWindow != nullptr);
+	return _parentWindow->GetRenderer();
 }
 
 void WindowContainer::DrawDebug()
@@ -125,7 +136,7 @@ void WindowContainer::DrawDebug()
 	const sf::Color& textColor = theme.Text;
 
 	// Draw border
-	static constexpr float BORDER_THICKNESS = 2.f;
+	static constexpr float BORDER_THICKNESS = 1.f;
 	sf::RectangleShape rectBorder{
 		sf::Vector2f{(float)(globalMax.x - globalMin.x - BORDER_THICKNESS * 0.5f),
 		(float)(globalMax.y - globalMin.y - BORDER_THICKNESS * 0.5f)}

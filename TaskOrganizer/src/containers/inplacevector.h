@@ -6,16 +6,29 @@ template <typename T, size_t InplaceSize>
 class InplaceVector
 {
 public:
+	using Iterator = T*;
+	using ConstIterator = const T*;
+
+public:
 	InplaceVector() = default;
 
 	void PushBack(const T& value)
 	{
 		ensureMsg(_nextSlotIndex < InplaceSize, "Inplace size exceeded.");
+
+		_data[_nextSlotIndex] = value;
+		++_nextSlotIndex;
 	}
+
+	bool IsValidIndex(size_t index) const { return index < _nextSlotIndex; }
 
 	const T& operator[](size_t index) const { assert(IsValidIndex(index)); return _data[index]; }
 
-	bool IsValidIndex(size_t index) const { return index < _nextSlotIndex; }
+	// Iterators
+	Iterator begin() { return _data; }
+	Iterator end() { return _data + _nextSlotIndex; }
+	ConstIterator begin() const { return _data; }
+	ConstIterator end() const { return _data + _nextSlotIndex; }
 
 private:
 	T _data [InplaceSize];
