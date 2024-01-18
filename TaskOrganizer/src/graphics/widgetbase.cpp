@@ -5,6 +5,7 @@
 #include "graphics/widgetsize.h"
 #include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
+#include "math/math.h"
 
 void WidgetBase::DrawWidget(const DrawParams& params)
 {
@@ -16,36 +17,18 @@ void WidgetBase::DrawChildWidgets(const DrawParams& params)
 {
 	for (WidgetBase* child : _childWidgets)
 	{
+		const sf::Vector2f childLocalPosition = child->GetWidgetLocalPosition();
 		const WidgetSize childSize = child->GetWidgetSize();
-		DrawParams childParams{ params };
-		switch (childSize.Type)
-		{
-			case WidgetSize::EType::Absolute:
-			{
-				const sf::Vector2f childLocalPosition = child->GetWidgetLocalPosition();
-				childParams.WidgetGlobalBoundsMin = params.WidgetGlobalBoundsMin + childLocalPosition;
-				childParams.WidgetGlobalBoundsMax.x = childParams.WidgetGlobalBoundsMin.x + childSize.AbsoluteSize.x;
-				childParams.WidgetGlobalBoundsMax.y = childParams.WidgetGlobalBoundsMin.y + childSize.AbsoluteSize.y;
 
-				break;
-			}
-			case WidgetSize::EType::Relative:
-			{
-				const sf::Vector2f childLocalPosition = child->GetWidgetLocalPosition();
-				childParams.WidgetGlobalBoundsMin = params.WidgetGlobalBoundsMin + childLocalPosition;
-				childParams.WidgetGlobalBoundsMax.x = childParams.WidgetGlobalBoundsMin.x +
-					(params.WidgetGlobalBoundsMax.x - params.WidgetGlobalBoundsMin.x) * childSize.RelativeSize.x;
-				childParams.WidgetGlobalBoundsMax.y = childParams.WidgetGlobalBoundsMin.y +
-					(params.WidgetGlobalBoundsMax.y - params.WidgetGlobalBoundsMin.y) * childSize.RelativeSize.y;
+		DrawParams childParams { params.Renderer };
+		childParams.WidgetGlobalBounds = childSize.TransformBounds(childLocalPosition, params.WidgetGlobalBounds);
+		childParams.WidgetGlobalBounds += sf::Vector2f{ _padding.Left, _padding.Top };
 
-				break;
-			}
-			case WidgetSize::EType::Fill:
-			{
-				// Do nothing, the child has the same bounds as the parent(this).
-				break;
-			}
-		}
+		childParams.WidgetGlobalBounds.Min.x = Math::Max(childParams.WidgetGlobalBounds.Min.x, params.WidgetGlobalBounds.Min.x + _padding.Left);
+		childParams.WidgetGlobalBounds.Min.y = Math::Max(childParams.WidgetGlobalBounds.Min.y, params.WidgetGlobalBounds.Min.y + _padding.Top);
+
+		childParams.WidgetGlobalBounds.Max.x = Math::Min(childParams.WidgetGlobalBounds.Max.x, params.WidgetGlobalBounds.Max.x - _padding.Right);
+		childParams.WidgetGlobalBounds.Max.y = Math::Min(childParams.WidgetGlobalBounds.Max.y, params.WidgetGlobalBounds.Max.y - _padding.Bottom);
 
 		child->DrawWidget(childParams);
 	}
@@ -56,8 +39,8 @@ void WidgetBase::DrawWidgetDebug(const DrawParams& params)
 	if (AppConfigProxy::Get().ShowWidgetBounds)
 	{
 		static const float BORDER_THICKNESS = 1.f;
-		sf::RectangleShape boundsRect { params.WidgetGlobalBoundsMax - params.WidgetGlobalBoundsMin - 2.f * sf::Vector2f{ BORDER_THICKNESS, BORDER_THICKNESS } };
-		boundsRect.setPosition(params.WidgetGlobalBoundsMin + sf::Vector2f{ BORDER_THICKNESS, BORDER_THICKNESS });
+		sf::RectangleShape boundsRect { params.WidgetGlobalBounds.Max - params.WidgetGlobalBounds.Min - 2.f * sf::Vector2f{ BORDER_THICKNESS, BORDER_THICKNESS } };
+		boundsRect.setPosition(params.WidgetGlobalBounds.Min + sf::Vector2f{ BORDER_THICKNESS, BORDER_THICKNESS });
 
 		boundsRect.setOutlineColor(sf::Color::Green);
 		boundsRect.setOutlineThickness(BORDER_THICKNESS);

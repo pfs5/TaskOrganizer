@@ -1,10 +1,11 @@
 #include "pch.h"
-#include "subwindows/subwindow_status.h"
+#include "subwindows/subwindow_tasktracking.h"
 
+#include "widgets/widget_containers.h"
 #include "graphics/widget.h"
 #include "config/staticconfig.h"
- 
-void SubWindow_Status::ConstructSubWindow()
+
+void SubWindow_TaskTracking::ConstructSubWindow()
 {
 	Super::ConstructSubWindow();
 
@@ -14,10 +15,9 @@ void SubWindow_Status::ConstructSubWindow()
 	base->SetBackgroundColor(StaticConfig::COLOR_SCHEME.WindowBackground);
 	base->SetPadding(PaddingF{}
 		.SetLeft(StaticConfig::SUBWINDOW_PADDING)
-		.SetRight(StaticConfig::SUBWINDOW_PADDING)
-		.SetTop(StaticConfig::SUBWINDOW_PADDING)
 		.SetBottom(StaticConfig::SUBWINDOW_PADDING)
 	);
+
 	Widget* content = base->CreateChildWidget<Widget>();
 	content->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
 	content->SetWidgetSize(WidgetSize::MakeFillSize());

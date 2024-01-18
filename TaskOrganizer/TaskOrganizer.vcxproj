@@ -155,7 +155,11 @@
     </ClCompile>
     <ClCompile Include="src\resource\resourcemanager.cpp" />
     <ClCompile Include="src\subwindows\subwindow_menubar.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_properties.cpp" />
     <ClCompile Include="src\subwindows\subwindow_status.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_tasktracking.cpp" />
+    <ClCompile Include="src\widgets\widget_button.cpp" />
+    <ClCompile Include="src\widgets\widget_containers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />
@@ -165,6 +169,7 @@
     <ClInclude Include="src\external\nlohmann_json.hpp" />
     <ClInclude Include="src\external\nlohmann_json_fwd.hpp" />
     <ClInclude Include="src\graphics\colorscheme.h" />
+    <ClInclude Include="src\graphics\padding.h" />
     <ClInclude Include="src\graphics\renderwindow.h" />
     <ClInclude Include="src\graphics\subwindow.h" />
     <ClInclude Include="src\config\themes.h" />
@@ -175,6 +180,7 @@
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\graphics\windowcommon.h" />
     <ClInclude Include="src\graphics\windowcontainer.h" />
+    <ClInclude Include="src\math\bounds.h" />
     <ClInclude Include="src\math\math.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\resource\resourcemanager.h" />
@@ -190,6 +196,8 @@
     <ClInclude Include="src\util\tostring.h" />
     <ClInclude Include="src\util\proxy.h" />
     <ClInclude Include="src\util\typehelper.h" />
+    <ClInclude Include="src\widgets\widget_button.h" />
+    <ClInclude Include="src\widgets\widget_containers.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />

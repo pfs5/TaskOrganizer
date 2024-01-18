@@ -5,8 +5,7 @@ struct WidgetSize
 	enum class EType : uint8_t
 	{
 		Absolute,
-		Relative,
-		Fill
+		Relative
 	};
 
 	EType Type;
@@ -21,6 +20,38 @@ struct WidgetSize
 		AbsoluteSize{ 100.f, 30.f }
 	{
 
+	}
+
+	Bounds2f TransformBounds(sf::Vector2f localPos, const Bounds2f& inBounds) const
+	{
+		Bounds2f outBounds;
+
+		switch (Type)
+		{
+			case WidgetSize::EType::Absolute:
+			{
+				outBounds.Min = inBounds.Min + localPos;
+				outBounds.Max.x = outBounds.Min.x + AbsoluteSize.x;
+				outBounds.Max.y = outBounds.Min.y + AbsoluteSize.y;
+
+				break;
+			}
+			case WidgetSize::EType::Relative:
+			{
+				outBounds.Min = inBounds.Min + localPos;
+				outBounds.Max.x = outBounds.Min.x + (inBounds.Max.x - inBounds.Min.x) * RelativeSize.x;
+				outBounds.Max.y = outBounds.Min.y + (inBounds.Max.y - inBounds.Min.y) * RelativeSize.y;
+
+				break;
+			}
+			default:
+			{
+				ensureMsg(false, "Unhandled case.");
+				break;
+			}
+		}
+
+		return outBounds;
 	}
 
 	static WidgetSize MakeAbsoluteSize(float x, float y)
@@ -44,7 +75,9 @@ struct WidgetSize
 	static WidgetSize MakeFillSize()
 	{
 		WidgetSize size;
-		size.Type = EType::Fill;
+		size.Type = EType::Relative;
+		size.RelativeSize.x = 1.0f;
+		size.RelativeSize.y = 1.0f;
 		return size;
 	}
 };

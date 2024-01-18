@@ -13,8 +13,8 @@ void SubWindowBase::DrawSubWindow()
 
 	// Start the widget drawing chain by drawing the subwindow as a widget.
 	WidgetBase::DrawParams params { _parentContainer->GetRenderer() };
-	params.WidgetGlobalBoundsMin = sf::Vector2{ (float)parentBoundsMin.x, (float)parentBoundsMin.y };
-	params.WidgetGlobalBoundsMax = sf::Vector2{ (float)parentBoundsMax.x, (float)parentBoundsMax.y };
+	params.WidgetGlobalBounds.Min = sf::Vector2{ (float)parentBoundsMin.x, (float)parentBoundsMin.y };
+	params.WidgetGlobalBounds.Max = sf::Vector2{ (float)parentBoundsMax.x, (float)parentBoundsMax.y };
 
 	WidgetBase::DrawWidget(params);
 }

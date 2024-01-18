@@ -100,13 +100,10 @@ void WindowContainer::Draw()
 	const sf::Vector2<uint32_t> globalMin = GetGlobalBoundsMin();
 	const sf::Vector2<uint32_t> globalMax = GetGlobalBoundsMax();
 
-	const ColorScheme& theme = Themes::Dark;
-	const sf::Color& backgroundColor = theme.Background;
-
 	// Draw background
 	sf::RectangleShape rectBackground{ sf::Vector2f{(float)(globalMax.x - globalMin.x), (float)(globalMax.y - globalMin.y)} };
 	rectBackground.setPosition((float)globalMin.x, (float)globalMin.y);
-	rectBackground.setFillColor(backgroundColor);
+	rectBackground.setFillColor(sf::Color::Magenta);
 	_parentWindow->Draw(rectBackground);
 
 	if (AppConfigProxy::Get().ShowWindowDebug)
@@ -150,7 +147,7 @@ void WindowContainer::DrawDebug()
 	// Draw name
 	static constexpr float NAME_TEXT_PADDING = 5.f;
 	static constexpr uint32_t NAME_TEXT_CHAR_SIZE = 12;
-	if (sf::Font* font = ResourceManagerProxy::Get().GetFont("OpenSansMedium"))
+	if (sf::Font* font = ResourceManagerProxy::Get().GetFont(StaticConfig::DEFAULT_FONT))
 	{
 		sf::Text text(_subWindow != nullptr ? _subWindow->GetSubWindowName() : "", *font, NAME_TEXT_CHAR_SIZE);
 		const sf::FloatRect textBounds = text.getLocalBounds();

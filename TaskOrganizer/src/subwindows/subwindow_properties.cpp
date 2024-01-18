@@ -1,10 +1,9 @@
 #include "pch.h"
-#include "subwindows/subwindow_status.h"
+#include "subwindows/subwindow_properties.h"
 
 #include "graphics/widget.h"
-#include "config/staticconfig.h"
- 
-void SubWindow_Status::ConstructSubWindow()
+
+void SubWindow_Properties::ConstructSubWindow()
 {
 	Super::ConstructSubWindow();
 
@@ -15,9 +14,8 @@ void SubWindow_Status::ConstructSubWindow()
 	base->SetPadding(PaddingF{}
 		.SetLeft(StaticConfig::SUBWINDOW_PADDING)
 		.SetRight(StaticConfig::SUBWINDOW_PADDING)
-		.SetTop(StaticConfig::SUBWINDOW_PADDING)
-		.SetBottom(StaticConfig::SUBWINDOW_PADDING)
 	);
+
 	Widget* content = base->CreateChildWidget<Widget>();
 	content->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
 	content->SetWidgetSize(WidgetSize::MakeFillSize());

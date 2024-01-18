@@ -7,8 +7,8 @@ void Widget::DrawWidget(const DrawParams& params)
 {
 	// First we draw this widget and then continue drawing the parent.
 
-	sf::RectangleShape backgroundRect { params.WidgetGlobalBoundsMax - params.WidgetGlobalBoundsMin };
-	backgroundRect.setPosition(params.WidgetGlobalBoundsMin);
+	sf::RectangleShape backgroundRect { params.WidgetGlobalBounds.Max - params.WidgetGlobalBounds.Min };
+	backgroundRect.setPosition(params.WidgetGlobalBounds.Min);
 	backgroundRect.setFillColor(_backgroundColor);
 	params.Renderer.draw(backgroundRect);
 

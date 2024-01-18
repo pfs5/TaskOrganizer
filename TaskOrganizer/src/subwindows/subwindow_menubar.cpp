@@ -1,30 +1,42 @@
 #include "pch.h"
 #include "subwindows/subwindow_menubar.h"
 
-#include "graphics/widget.h"
+#include "widgets/widget_containers.h"
+#include "widgets/widget_button.h"
 
 void SubWindow_MenuBar::ConstructSubWindow()
 {
 	Super::ConstructSubWindow();
 
-	// todo - testing
-	Widget* w1 = CreateChildWidget<Widget>();
-	w1->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
-	w1->SetWidgetSize(WidgetSize::MakeRelativeSize(0.5f, 0.25f));
-	w1->SetBackgroundColor(sf::Color::Red);
+	Widget_Columns* columns = CreateChildWidget<Widget_Columns>();
+	columns->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
+	columns->SetWidgetSize(WidgetSize::MakeFillSize());
+	columns->SetSpacing(10.f);
+	columns->SetPadding(PaddingF{}.SetLeft(10.f).SetTop(10.f));
+	columns->SetBackgroundColor(StaticConfig::COLOR_SCHEME.WindowBackground);
 
-	Widget* w2 = CreateChildWidget<Widget>();
-	w2->SetLocalPosition(sf::Vector2f{ 10.f, 22.f });
-	w2->SetWidgetSize(WidgetSize::MakeFillSize());
-	w2->SetBackgroundColor(sf::Color::White);
+	{
+		Widget_Button* w = columns->CreateChildWidget<Widget_Button>("File");
+		w->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
+		w->SetWidgetSize(WidgetSize::MakeAbsoluteSize(65.f, 20.f));
+		w->SetBackgroundColor(StaticConfig::COLOR_SCHEME.Button);
+		w->SetTextColor(StaticConfig::COLOR_SCHEME.ButtonText);
+	}
 
-	//Widget* w2 = CreateChildWidget<Widget>();
-	//w2->SetLocalPosition(sf::Vector2f{ 400.f, 20.f });
-	//w2->SetBackgroundColor(sf::Color::White);
+	{
+		Widget_Button* w = columns->CreateChildWidget<Widget_Button>("Windows");
+		w->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
+		w->SetWidgetSize(WidgetSize::MakeAbsoluteSize(65.f, 20.f));
+		w->SetBackgroundColor(StaticConfig::COLOR_SCHEME.Button);
+		w->SetTextColor(StaticConfig::COLOR_SCHEME.ButtonText);
+	}
 
-	//Widget* w3 = CreateChildWidget<Widget>();
-	//w3->SetLocalPosition(sf::Vector2f{ 500.f, 25.f });
-	//w3->SetBackgroundColor(sf::Color::Cyan);
-
+	{
+		Widget_Button* w = columns->CreateChildWidget<Widget_Button>("Exit");
+		w->SetLocalPosition(sf::Vector2f{ 0.f, 0.f });
+		w->SetWidgetSize(WidgetSize::MakeAbsoluteSize(65.f, 20.f));
+		w->SetBackgroundColor(StaticConfig::COLOR_SCHEME.Button);
+		w->SetTextColor(StaticConfig::COLOR_SCHEME.ButtonText);
+	}
 }
 

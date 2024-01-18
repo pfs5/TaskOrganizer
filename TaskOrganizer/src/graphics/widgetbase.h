@@ -2,6 +2,7 @@
 
 #include "config/staticconfig.h"
 #include "containers/inplacevector.h"
+#include "graphics/padding.h"
 #include "graphics/widgetmanager.h"
 
 namespace sf
@@ -16,8 +17,7 @@ class WidgetBase
 public:
 	struct DrawParams
 	{
-		sf::Vector2f WidgetGlobalBoundsMin;
-		sf::Vector2f WidgetGlobalBoundsMax;
+		Bounds2f WidgetGlobalBounds;
 		sf::RenderTarget& Renderer;
 
 		DrawParams(sf::RenderTarget& renderer) :
@@ -33,11 +33,6 @@ public:
 	virtual WidgetSize GetWidgetSize() const = 0;
 	virtual sf::Vector2f GetWidgetLocalPosition() const = 0;
 
-protected:
-	WidgetBase* _parentWidget = nullptr;
-	InplaceVector<WidgetBase*, StaticConfig::WIDGET_MAX_CHILDREN> _childWidgets;
-
-protected:
 	template<typename WidgetClass, typename... Args>
 	WidgetClass* CreateChildWidget(const Args&... args)
 	{
@@ -49,7 +44,14 @@ protected:
 		return newWidget;
 	}
 
+	void SetPadding(PaddingF value) { _padding = value; }
+
+protected:
+	WidgetBase* _parentWidget = nullptr;
+	InplaceVector<WidgetBase*, StaticConfig::WIDGET_MAX_CHILDREN> _childWidgets;
+	PaddingF _padding;
+
 private:
-	void DrawChildWidgets(const DrawParams& params);
+	virtual void DrawChildWidgets(const DrawParams& params);	// can be overridden to achieve different layouts
 	void DrawWidgetDebug(const DrawParams& params);
 };

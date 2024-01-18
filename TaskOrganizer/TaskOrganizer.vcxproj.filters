@@ -15,6 +15,10 @@
     <ClCompile Include="src\graphics\subwindow.cpp" />
     <ClCompile Include="src\graphics\widgetbase.cpp" />
     <ClCompile Include="src\subwindows\subwindow_menubar.cpp" />
+    <ClCompile Include="src\widgets\widget_containers.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_tasktracking.cpp" />
+    <ClCompile Include="src\widgets\widget_button.cpp" />
+    <ClCompile Include="src\subwindows\subwindow_properties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
@@ -49,6 +53,10 @@
     <ClInclude Include="src\graphics\widgetmanager.h" />
     <ClInclude Include="src\util\typehelper.h" />
     <ClInclude Include="src\graphics\widgetsize.h" />
+    <ClInclude Include="src\widgets\widget_containers.h" />
+    <ClInclude Include="src\math\bounds.h" />
+    <ClInclude Include="src\widgets\widget_button.h" />
+    <ClInclude Include="src\graphics\padding.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\taskorganizer.natvis" />

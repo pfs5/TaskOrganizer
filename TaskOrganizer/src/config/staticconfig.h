@@ -9,8 +9,11 @@ namespace StaticConfig
 	static constexpr uint32_t SUBWINDOW_MENUBAR_HEIGHT = 40;
 	static constexpr float SUBWINDOW_TASKTRACKER_RELATIVESIZE = 0.75f;
 	static constexpr float SUBWINDOW_PROPERTIES_RELATIVESIZE = 0.75f;
+	static constexpr float SUBWINDOW_PADDING = 10.f;
 
 	// UI
+	static const inline ColorScheme COLOR_SCHEME = Themes::Dark;
+	static constexpr const char* DEFAULT_FONT = "OpenSansMedium";
 	static constexpr uint32_t BUTTON_HEIGHT = 20;
 
 	// Data
